@@ -32,7 +32,40 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.Input {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.Input input {
+  width: 25%;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.btn {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  background-color: #040F0F;
+}
+
+
+.main {
+  border: 2px solid black;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 5px;
+  background-color: #2D3A3A;
 }
