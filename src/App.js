@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className='main'>
-      Here Goes componets
+      Here Goes components
       <InputField className='Input' onSubmit={handelOnSubmit} onChange={handelOnChange} value={item} />
       <List todoList={list} onClick={handelOnClick} handleFiltered={handleFilter} />
     </div>
