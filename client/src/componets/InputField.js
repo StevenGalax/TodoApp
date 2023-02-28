@@ -7,6 +7,7 @@ const InputField = ({ onSubmit, onChange, value }) => {
             <input
                 value={value}
                 onChange={onChange}
+                name="task"
             />
             <button className="btn">Add to List</button>
         </form>
