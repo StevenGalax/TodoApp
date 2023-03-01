@@ -1,17 +1,15 @@
 import express from 'express';
-import path from 'path';
-import data from './data.json' assert {type: 'json'};
 import mongoose from 'mongoose';
-import Task from './models/tasks.js'
-import bodyParser from 'body-parser'
+import Task from './models/tasks.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({
     extended: true
-}))
-app.use(bodyParser.json())
+}));
+app.use(bodyParser.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/Todo-App');
 
@@ -25,19 +23,34 @@ db.once("open", () => {
 app.get("/api/task", async (req, res) => {
     const task = await Task.find({});
     console.log(task)
-    res.send(task)
-})
+    res.send(task);
+});
 
 app.post("/api/task", async (req, res) => {
     const createTask = new Task({
         id: req.body.id,
         task: req.body.task,
         completed: req.body.complete
-    })
+    });
     console.log(req.body)
-    await createTask.save()
-})
+    await createTask.save();
+    const updatedTask = await Task.find({});
+    res.send(updatedTask);
+});
+
+app.patch("/api/task", async (req, res) => {
+    const { id, complete } = req.body
+    console.log(req.body);
+    const task = await Task.findByIdAndUpdate(id, { completed: complete })
+    console.log(task);
+    await task.save();
+    res.send('Success');
+});
+
+app.delete("/api/task", async (req, res) => {
+    const { complete } = req.complete;
+});
 
 app.listen(5000, () =>
     console.log('Serving on Port 5000')
-)
+);

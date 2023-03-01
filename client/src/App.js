@@ -1,59 +1,74 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import List from './componets/List';
 import InputField from './componets/InputField';
-import data from './data.json'
 import axios from 'axios';
 
 
 
 function App() {
 
-  const [list, setList] = useState(data)
-  const [item, setItem] = useState('')
+  const [list, setList] = useState([]);
+  const [item, setItem] = useState('');
 
   const fetchTask = async () => {
     return await axios.get('/api/task')
-      .then((res) => setList(res.data))
+      .then((res) => setList(res.data));
   }
 
   const postTask = async () => {
-    return axios
+    return await axios
       .post('/api/task', {
         id: list.length += Math.floor(Math.random() * 1000), task: item, complete: false
       })
+      .then(res => res.data)
   }
+
+  const updateTask = async (id, completed) => {
+    return await axios
+      .patch('/api/task', {
+        id: id,
+        complete: completed
+      })
+      .then(res => res);
+  }
+
+  // const deleteTask = async () => {
+  //   return await axios
+  //     .delete('/api/task', {
+
+  //     })
+  // }
 
   useEffect(() => {
     fetchTask()
-    // postTask()
-  }, [])
+  }, []);
 
 
-  function handelOnSubmit(e) {
-    // const newItem = { task: item, complete: false };
-    postTask()
+  async function handelOnSubmit(e) {
     e.preventDefault();
-    fetchTask()
-    // setList([...list, { id: list.length += Math.floor(Math.random() * 1000), ...newItem }])
-    setItem('')
+    const updateATask = await postTask();
+    setList(updateATask);
+    setItem('');
   }
 
   function handelOnChange(e) {
     setItem(e.target.value);
   }
 
-  function handelOnClick(id) {
+  async function handelOnClick(_id) {
     let mapped = list.map(task => {
-      return task.id == id ? { ...task, complete: !task.complete } : { ...task };
+      return task._id === _id ? { ...task, completed: !task.completed } : { ...task };
     });
+    let obj = mapped.find(o => o._id === _id);
+    await updateTask(_id, obj.completed);
     setList(mapped);
   }
 
   const handleFilter = () => {
     let filtered = list.filter(task => {
-      return !task.complete;
+      return !task.completed;
     });
     setList(filtered);
   }
@@ -63,7 +78,6 @@ function App() {
       Here Goes components
       <InputField className='Input' onSubmit={handelOnSubmit} onChange={handelOnChange} value={item} />
       <List todoList={list} onClick={handelOnClick} handleFiltered={handleFilter} />
-      <p>{ }</p>
     </div>
   )
 }

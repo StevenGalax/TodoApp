@@ -11,7 +11,7 @@ const InputField = ({ onSubmit, onChange, value }) => {
             />
             <button className="btn">Add to List</button>
         </form>
-    )
+    );
 }
 
 export default InputField;
