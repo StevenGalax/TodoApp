@@ -22,7 +22,6 @@ db.once("open", () => {
 
 app.get("/api/task", async (req, res) => {
     const task = await Task.find({});
-    console.log(task)
     res.send(task);
 });
 
@@ -32,7 +31,6 @@ app.post("/api/task", async (req, res) => {
         task: req.body.task,
         completed: req.body.complete
     });
-    console.log(req.body)
     await createTask.save();
     const updatedTask = await Task.find({});
     res.send(updatedTask);
@@ -40,15 +38,14 @@ app.post("/api/task", async (req, res) => {
 
 app.patch("/api/task", async (req, res) => {
     const { id, complete } = req.body
-    console.log(req.body);
     const task = await Task.findByIdAndUpdate(id, { completed: complete })
-    console.log(task);
     await task.save();
     res.send('Success');
 });
 
 app.delete("/api/task", async (req, res) => {
-    const { complete } = req.complete;
+    const deleteTask = await Task.deleteMany({ completed: true })
+    res.send('sucess')
 });
 
 app.listen(5000, () =>

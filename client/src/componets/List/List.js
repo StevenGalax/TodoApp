@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "react-bootstrap/Button"
 
 import "./List.css";
 
@@ -16,8 +17,8 @@ function List({ todoList, onClick, handleFiltered }) {
 
     return (
         <div className="List">
-            <h2>List</h2>
-            <button onClick={handleFiltered}>Delete Completed Task</button>
+            <h1>List</h1>
+            <Button variant='danger' onClick={handleFiltered}>Delete Completed Task</Button>
             <p className="Task">{showList}</p>
         </div>
     );

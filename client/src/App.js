@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
-import List from './componets/List';
-import InputField from './componets/InputField';
+import List from './componets/List/List';
+import InputField from './componets/InputField/InputField';
+// import NavBar from './componets/NavBar/NavBar';
+// import Container from 'react-bootstrap/Container'
 import axios from 'axios';
+import NavBar from './componets/NavBar/NavBar';
 
 
 
@@ -34,12 +38,13 @@ function App() {
       .then(res => res);
   }
 
-  // const deleteTask = async () => {
-  //   return await axios
-  //     .delete('/api/task', {
-
-  //     })
-  // }
+  const deleteTask = async () => {
+    return await axios
+      .delete('/api/task', {
+        complete: false
+      })
+      .then(res => res)
+  }
 
   useEffect(() => {
     fetchTask()
@@ -70,15 +75,18 @@ function App() {
     let filtered = list.filter(task => {
       return !task.completed;
     });
+    deleteTask()
     setList(filtered);
   }
 
   return (
-    <div className='main'>
-      Here Goes components
-      <InputField className='Input' onSubmit={handelOnSubmit} onChange={handelOnChange} value={item} />
-      <List todoList={list} onClick={handelOnClick} handleFiltered={handleFilter} />
-    </div>
+    <>
+      <NavBar />
+      <div className='main'>
+        <InputField className='Input' onSubmit={handelOnSubmit} onChange={handelOnChange} value={item} />
+        <List todoList={list} onClick={handelOnClick} handleFiltered={handleFilter} />
+      </div>
+    </>
   )
 }
 
