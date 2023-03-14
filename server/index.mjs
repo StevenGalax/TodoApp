@@ -2,6 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import Task from './models/tasks.js';
 import bodyParser from 'body-parser';
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 
@@ -11,7 +14,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/Todo-App');
+const dbUrl = process.env.DB_URL
+
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
